@@ -1,0 +1,26 @@
+  vector<int> ans;
+	
+	void topo_sort(int n, vector<int> a[],vector<int> &vis,int in)
+	{
+	    if(vis[in])
+	    return;
+	    
+	    vis[in]=1;
+	    for(int x:a[in])
+	        topo_sort(n,a,vis,x);
+	        
+	   ans.push_back(in);
+	}
+	
+	vector<int> topoSort(int n, vector<int> a[]) 
+	{
+	    // code here
+	    vector<int> vis(n,0);
+	    
+	    for(int i=0;i<n;i++)
+	    topo_sort(n,a,vis,i);
+	    
+	    reverse(ans.begin(),ans.end());
+	    
+	    return ans;
+	}
