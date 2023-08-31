@@ -1,0 +1,57 @@
+Given a weighted, undirected and connected graph of V vertices and E edges. The task is to find the sum of weights of the edges of the Minimum Spanning Tree
+
+int find(int u,vector<int> &parent)
+	{
+	    if(parent[u]<0)
+	    return u;
+	    
+	    return parent[u]=find(parent[u],parent);
+	}
+	
+	void unionByWt(int u,int v,vector<int> &parent)
+	{
+	    int pu=find(u,parent);
+	    int pv=find(v,parent);
+	    
+	    if(pu==pv)
+	    return;
+	    
+	    if(parent[pu]<=parent[pv])
+	    {
+	        parent[pu]+=parent[pv];
+	        parent[pv]=u;
+	    }
+	    else
+	    {
+	        parent[pv]+=parent[pu];
+	        parent[pu]=v;
+	    }
+	}
+	
+	int spanningTree(int n, vector<vector<int>> a[])
+	{
+	    vector<int> parent(n,-1);
+	    vector<vector<int>> edges;
+	    int i,ans=0;
+	    
+	    for(i=0;i<n;i++)
+	    {
+	        for(auto v:a[i])
+	        edges.push_back({v[1],i,v[0]});
+	    }
+	    
+	    sort(edges.begin(),edges.end());
+	    
+	    for(auto e:edges)
+	    {
+	        int u=e[1],v=e[2],w=e[0];
+	        
+	        if(find(u,parent)==find(v,parent))
+	        continue;
+	        
+	        ans+=w;
+	        unionByWt(u,v,parent);
+	    }
+	    
+	    return ans;
+	}
