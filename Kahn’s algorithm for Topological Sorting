@@ -1,0 +1,38 @@
+vector<int> topoSort(int n, vector<int> a[]) 
+	{
+	    // code here
+	    vector<int> in(n,0);
+	    vector<int> ans;
+	    queue<int> q;
+	    int i,c=0;
+	    
+	    for(int i=0;i<n;i++)
+	    {
+	        for(int x:a[i])
+	        in[x]++;
+	    }
+	    
+	    for(i=0;i<n;i++)
+	    {
+	        if(in[i]==0)
+	        q.push(i);
+	    }
+	    
+	    while(!q.empty())
+	    {
+	        i=q.front();
+	        q.pop();
+	        
+	        ans.push_back(i);
+	        
+	        for(int x:a[i])
+	        {
+	            in[x]--;
+	            
+	            if(in[x]==0)
+	            q.push(x);
+	        }
+	    }
+	    
+	    return ans;
+	}
